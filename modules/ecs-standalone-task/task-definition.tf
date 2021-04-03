@@ -20,7 +20,7 @@ locals {
             logConfiguration: {
                 logDriver: "awslogs",
                 options: {
-                    awslogs-region: data.aws_region.current.name
+                    awslogs-region: local.aws_region
                     awslogs-create-group: "true"
                     awslogs-group: "${var.name}/${var.environment}"
                     awslogs-stream-prefix: task.name
@@ -41,8 +41,6 @@ locals {
         }
     ]
 }
-
-data "aws_region" "current" {}
 
 resource "aws_ecs_task_definition" "default" {
     requires_compatibilities = ["FARGATE"]

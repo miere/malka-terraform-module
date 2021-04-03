@@ -1,25 +1,3 @@
-provider "local" {}
-provider "docker" {
-  registry_auth {
-    address = "${local.account_id}.dkr.ecr.${var.region}.amazonaws.com"
-    username = local.ecr_username
-    password = local.ecr_password
-  }
-}
-
-locals {
-  account_id = data.aws_caller_identity.default.account_id
-  ecr_username = data.aws_ecr_authorization_token.default.user_name
-  ecr_password = data.aws_ecr_authorization_token.default.password
-}
-
-output "account_id" {
-  value = local.account_id
-}
-
-data "aws_ecr_authorization_token" "default" {}
-data "aws_caller_identity" "default" {}
-
 terraform {
   required_providers {
     docker = {
@@ -30,5 +8,14 @@ terraform {
       source = "hashicorp/local"
       version = "2.1.0"
     }
+  }
+}
+
+provider "local" {}
+provider "docker" {
+  registry_auth {
+    address = "${local.account_id}.dkr.ecr.${local.aws_region}.amazonaws.com"
+    username = local.ecr_username
+    password = local.ecr_password
   }
 }
