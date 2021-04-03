@@ -20,7 +20,7 @@ locals {
             logConfiguration: {
                 logDriver: "awslogs",
                 options: {
-                    awslogs-region: local.aws_region
+                    awslogs-region: var.aws_region
                     awslogs-create-group: "true"
                     awslogs-group: "${var.name}/${var.environment}"
                     awslogs-stream-prefix: task.name

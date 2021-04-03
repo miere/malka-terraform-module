@@ -3,6 +3,8 @@ variable "name" {
     description = "Unique name of this task"
 }
 
+variable "aws_region" {}
+
 variable "environment" {
     type = string
     description = "Deployment environment which this task will be deployed to"

@@ -8,6 +8,7 @@ locals {
 module "ecs_service" {
   source = "./modules/ecs-standalone-task"
 
+  aws_region = local.aws_region
   name = var.name
   environment = var.environment
 
