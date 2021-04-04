@@ -1,5 +1,6 @@
 locals {
-  functions = flatten(var.configuration[*].target_functions)
+  configuration_json = jsondecode(var.configuration)
+  functions = flatten(local.configuration_json[*]["target_functions"])
   function_arns = data.aws_lambda_function.functions.*.arn
 }
 

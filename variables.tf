@@ -11,14 +11,8 @@ variable "environment" {
 }
 
 variable "configuration" {
-  type = list(object({
-    topic_name = string,
-    topic_number_of_consumers = number,
-    consumer_configuration = map(string),
-    target_functions = list(string)
-  }))
-
-  description = "Defines how the Malka consumer will behave internally. Each function target available on each Malka configuration entry implies a new consumer group being internally deployed inside the Malka consumer. In practice, if you have two configurations with two target functions each we will end up with active 4 consumer groups."
+  type = string
+  description = "The JSON string that defines how the Malka consumer will behave internally. Each function target available on each Malka configuration entry implies a new consumer group being internally deployed inside the Malka consumer. In practice, if you have two configurations with two target functions each we will end up with active 4 consumer groups."
 }
 
 variable "vpc_id" {

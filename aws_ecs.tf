@@ -1,6 +1,6 @@
 locals {
   hashed_docker_file = sha256(data.template_file.dockerfile.rendered)
-  hashed_config_file = sha256(jsonencode(var.configuration))
+  hashed_config_file = sha256(var.configuration)
   computed_version_id = sha256("${local.hashed_config_file}-${local.hashed_docker_file}")
   remote_docker_image = "${aws_ecr_repository.default_image.repository_url}:${local.computed_version_id}"
 }
@@ -27,6 +27,7 @@ module "ecs_service" {
     env_vars = {
       "KAFKA_BROKERS" = join(",", var.kafka_brokers)
       "KAFKA_SECURITY_PROTOCOL" = var.kafka_security_protocol
+      "RUST_LOG" = "malka_consumer=debug,rdkafka=debug"
     }
     secrets = {}
     port_mappings = []
@@ -51,7 +52,7 @@ resource "local_file" "dockerfile" {
 }
 
 resource "local_file" "config" {
-  content  = jsonencode(var.configuration)
+  content  = var.configuration
   filename = "${path.cwd}/configuration.generated"
 }
 
